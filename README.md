@@ -6,8 +6,10 @@ Detecting Pneumonia by using a CNN. Trained it by applying transfer learning on 
 
 `python3 app.py` or `gunicorn app:app`
 
-##Demo Link
+## Demo Link
+
 https://beta-test-medical.herokuapp.com
 
-##Note:
+### Note:
+
 if the demo link says that there is an application error, just refresh. It is because the heroku server might sometimes fail to load the model correctly.
