@@ -1,0 +1,7 @@
+flask
+numpy
+keras
+Tensorflow==1.13.1
+gunicorn
+pillow
+

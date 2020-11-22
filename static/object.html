@@ -1,0 +1,93 @@
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script>
+		if (typeof module === 'object') {
+			window.module = module;
+			module = undefined;
+		}
+  </script>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <script>
+		if (window.module) module = window.module;
+  </script>
+  <script>
+  	function showFileBox() {
+	  	const { dialog } = require('electron').remote;
+	  	dialog.showOpenDialog((fileNames) => {
+	    if (fileNames === undefined) {
+	      return;
+	    }
+	    document.getElementById("path").value = fileNames[0]
+	    document.getElementById("filename").innerHTML = fileNames[0]
+
+	  });
+    }
+  </script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
+
+</head>
+<script>
+
+plot = function() {
+var preds = {{preds}}
+var classes = {{classes | safe}}
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "light2", // "light1", "light2", "dark1", "dark2"
+	exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Your Results: "
+	},
+	data: [{
+		type: "bar",
+		legendText: "{label}",
+		indexLabelFontSize: 16,
+		indexLabel: "{label} - {y}%",
+		dataPoints: [
+			{ y: preds[0], label: classes[0] },
+			{ y: preds[1], label: classes[1]},
+			{ y: preds[2], label: classes[2] },
+		]
+	}]
+});
+chart.render();
+window.scrollTo(0,document.body.scrollHeight);
+
+}
+</script>
+<body>
+  
+
+  <br>
+  <div class="container">
+	<button class="btn btn-info"><a style="color:white" href="/">< Back</a></button>
+	<br>
+	<br>
+    <div class="jumbotron">
+      <h1>Medical Diagnosis (Beta)</h1>
+    </div>
+    <br>
+  	
+    <br>
+    <!-- <button onclick="showFileBox()" class="btn btn-success">Select Image</button> -->
+    <p id="filename"></p>
+  <form method="post" enctype="multipart/form-data">
+
+	  <!-- <input type="text" value="" name="path" id="path" style="display: none"></input> -->
+	  <input type="file" class="btn btn-success" name="x-ray">
+	  <br>
+	  <!-- <button type="submit" id="ob_detect" class="btn btn-warning">Go!</button> -->
+	  <input type = "submit" value="Go" class="btn btn-warning">
+  </form>
+
+  {% if preds %}
+    <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+  <script>
+  plot()
+  </script>
+
+  {% endif %}
+    <br>
+  </div>
+<body>
